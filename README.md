@@ -1,41 +1,41 @@
-# 🐾 Zoo Management System
+# Zoo Management System
 
-Système complet de gestion d'un zoo avec authentification Auth0, contrôle d'accès basé sur les rôles, et interface moderne.
+Application de gestion d'un zoo avec authentification Auth0 et contrôle d'accès par rôles.
 
-## 📋 Fonctionnalités
+## Fonctionnalités
 
-### ✅ Backend (NestJS)
-- **API REST** avec documentation Swagger
-- **Authentification Auth0** avec JWT
-- **Contrôle d'accès** basé sur les rôles (gardien, vétérinaire, visiteur)
-- **Base de données PostgreSQL** avec TypeORM
-- **Annotations OpenAPI** complètes pour Swagger
+### Backend (NestJS)
+- API REST avec documentation Swagger
+- Authentification Auth0 avec JWT
+- Contrôle d'accès par rôles (gardien, vétérinaire, visiteur)
+- Base de données PostgreSQL avec TypeORM
+- Documentation OpenAPI complète
 
-### ✅ Frontend (Angular)
-- **Interface moderne** avec Angular Material
-- **Authentification Auth0** intégrée
-- **Gestion des animaux** avec barre de santé visuelle
-- **Gestion des enclos** avec grille responsive
-- **Contrôle d'accès** adaptatif selon les rôles
+### Frontend (Angular)
+- Interface moderne avec Angular Material
+- Authentification Auth0 intégrée
+- Gestion des animaux avec barre de santé
+- Gestion des enclos avec grille responsive
+- Contrôle d'accès selon les rôles
 
-## 🚀 Installation Rapide
+## Installation
 
 ### Prérequis
 - Node.js (v18+)
-- PostgreSQL
+- PostgreSQL (Docker)
 - Compte Auth0
 
 ### 1. Cloner le projet
 ```bash
-git clone <repository-url>
-cd zoo-project-tp
+git clone https://github.com/mrnoisette/ZooProject.git
+cd ZooProject
 ```
 
-### 2. Configuration de la base de données
-Assurez-vous que votre base de données PostgreSQL Docker est démarrée et accessible sur le port 5432
+### 2. Base de données
+Assurez-vous que votre conteneur PostgreSQL Docker est démarré.
 
 ### 3. Configuration Auth0
-1. Créez une application dans [Auth0](https://auth0.com)
+1. Créez une application dans Auth0
 2. Configurez les rôles : `gardien`, `veterinaire`, `visiteur`
 3. Notez votre domaine et client ID
 
@@ -56,81 +56,51 @@ npm install
 ng serve
 ```
 
-## 📚 Documentation API
+## API Documentation
 
-L'API est documentée avec Swagger et accessible à : `http://localhost:3000/api`
+Swagger disponible à : `http://localhost:3000/api`
 
-### Endpoints Principaux
+### Endpoints
 
 #### Animaux (`/animaux`)
 - `GET /animaux` - Liste tous les animaux
-- `POST /animaux` - Crée un nouvel animal
-- `GET /animaux/:id` - Récupère un animal (authentification requise)
-- `DELETE /animaux/:id` - Supprime un animal (rôle gardien requis)
-- `GET /animaux/soigner/:id` - Soigne un animal (rôle vétérinaire requis)
+- `POST /animaux` - Crée un animal
+- `GET /animaux/:id` - Récupère un animal (auth requise)
+- `DELETE /animaux/:id` - Supprime un animal (gardien)
+- `GET /animaux/soigner/:id` - Soigne un animal (vétérinaire)
 
 #### Enclos (`/enclos`)
 - `GET /enclos` - Liste tous les enclos
-- `POST /enclos` - Crée un nouvel enclos (rôle gardien requis)
-- `PUT /enclos/:id` - Modifie un enclos (rôle gardien requis)
-- `DELETE /enclos/:id` - Supprime un enclos (rôle gardien requis)
+- `POST /enclos` - Crée un enclos (gardien)
+- `PUT /enclos/:id` - Modifie un enclos (gardien)
+- `DELETE /enclos/:id` - Supprime un enclos (gardien)
 
-## 🔐 Authentification et Rôles
+## Rôles utilisateur
 
-### Rôles Utilisateur
 - **Gardien** : Accès complet (CRUD animaux et enclos)
 - **Vétérinaire** : Consultation + soins des animaux
 - **Visiteur** : Consultation uniquement
 
-### Test des Endpoints
+## Test des endpoints
+
 1. Connectez-vous via l'interface web
-2. Copiez le token JWT depuis la console du navigateur
-3. Utilisez le token dans Swagger UI : `http://localhost:3000/api`
+2. Copiez le token JWT depuis la console
+3. Utilisez le token dans Swagger UI
 
-## 🧪 Tests
+## Lancement rapide
 
-### Backend
 ```bash
-cd backend
-npm run test          # Tests unitaires
-npm run test:e2e      # Tests e2e
-npm run test:cov      # Couverture de code
+./start.sh
 ```
 
-### Frontend
-```bash
-cd frontend
-ng test              # Tests unitaires
-ng e2e               # Tests e2e
-```
+## Accès
 
-## 📁 Structure du Projet
+- **Frontend** : `http://localhost:4200`
+- **API Swagger** : `http://localhost:3000/api`
 
-```
-zoo-project-tp/
-├── backend/                 # API NestJS
-│   ├── src/
-│   │   ├── animaux/        # Module animaux
-│   │   ├── enclos/         # Module enclos
-│   │   ├── auth/           # Authentification
-│   │   └── main.ts         # Point d'entrée
-│   ├── package.json
-│   └── README.md
-├── frontend/               # Application Angular
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/ # Composants UI
-│   │   │   ├── services/   # Services API
-│   │   │   └── models/     # Interfaces TypeScript
-│   │   └── main.ts
-│   ├── package.json
-│   └── README.md
-└── README.md              # Ce fichier
-```
+## Variables d'environnement
 
-## 🔧 Configuration Détaillée
-
-### Variables d'Environnement Backend (.env)
+### Backend (.env)
 ```env
 # Database (Docker PostgreSQL)
 DB_HOST=localhost
@@ -147,7 +117,7 @@ AUTH0_AUDIENCE=http://localhost:3000
 PORT=3000
 ```
 
-### Configuration Frontend (environment.ts)
+### Frontend (environment.ts)
 ```typescript
 export const environment = {
   production: false,
@@ -159,75 +129,49 @@ export const environment = {
 };
 ```
 
-## 🎯 Utilisation
+## Structure du projet
 
-### 1. Démarrage
-```bash
-# Terminal 1 - Backend
-cd backend
-npm run start:dev
-
-# Terminal 2 - Frontend
-cd frontend
-ng serve
+```
+zoo-project-tp/
+├── backend/                 # API NestJS
+│   ├── src/
+│   │   ├── animaux/        # Module animaux
+│   │   ├── enclos/         # Module enclos
+│   │   ├── auth/           # Authentification
+│   │   └── main.ts
+│   └── README.md
+├── frontend/               # Application Angular
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/ # Composants UI
+│   │   │   ├── services/   # Services API
+│   │   │   └── models/     # Interfaces
+│   │   └── main.ts
+│   └── README.md
+└── README.md
 ```
 
-### 2. Accès
-- **Frontend** : `http://localhost:4200`
-- **API Swagger** : `http://localhost:3000/api`
+## Tests
 
-### 3. Test des Fonctionnalités
-1. **Connexion** : Cliquez sur "Connexion" et authentifiez-vous
-2. **Gestion Animaux** : Ajoutez, consultez, soignez des animaux
-3. **Gestion Enclos** : Créez et gérez les enclos
-4. **Rôles** : Testez les différents niveaux d'accès
+```bash
+# Backend
+cd backend
+npm run test
 
-## 🐛 Dépannage
+# Frontend
+cd frontend
+ng test
+```
 
-### Problèmes Courants
+## Dépannage
 
 **Erreur de connexion à la base de données**
 - Vérifiez que votre conteneur PostgreSQL Docker est démarré
 - Vérifiez les paramètres dans `.env`
-- Vérifiez que le port 5432 est accessible
 
 **Erreur d'authentification Auth0**
 - Vérifiez la configuration Auth0
-- Vérifiez les URLs autorisées dans Auth0
+- Vérifiez les URLs autorisées
 
 **Erreur CORS**
-- Vérifiez que le backend est démarré sur le port 3000
-- Vérifiez la configuration CORS dans `main.ts`
-
-## 📝 Améliorations Implémentées
-
-### Backend
-- ✅ Annotations OpenAPI pour Swagger
-- ✅ Route GetById accessible aux utilisateurs authentifiés
-- ✅ Route Delete accessible uniquement aux gardiens
-- ✅ Route soignerAnimal accessible uniquement aux vétérinaires
-- ✅ Nouvelle entité Enclos avec 3 endpoints
-- ✅ Contrôle d'accès basé sur les rôles
-
-### Frontend
-- ✅ Composants pour visualiser les animaux
-- ✅ Composants pour visualiser les enclos
-- ✅ Interface moderne avec Angular Material
-- ✅ Gestion des rôles et permissions
-- ✅ Formulaires d'ajout et de modification
-
-## 🤝 Contribution
-
-1. Fork le projet
-2. Créez une branche pour votre fonctionnalité
-3. Committez vos changements
-4. Poussez vers la branche
-5. Ouvrez une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT.
-
-## 👥 Auteurs
-
-Développé pour l'évaluation finale ESGI - TypeScript. 
+- Vérifiez que le backend est démarré sur le port 3000 
