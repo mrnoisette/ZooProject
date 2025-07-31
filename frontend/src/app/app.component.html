@@ -1,0 +1,49 @@
+
+<mat-toolbar color="primary">
+  <span>🐾 Zoo Management System 🐾</span>
+  <span class="spacer"></span>
+
+  @if (auth.isAuthenticated$ | async) {
+  <span class="username"> {{ username }} </span>
+  <button mat-button (click)="logout()">Déconnexion</button>
+  } @else {
+  <button mat-button (click)="auth.loginWithRedirect()">Connexion</button>
+  }
+</mat-toolbar>
+
+@if (auth.isAuthenticated$ | async) {
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item (click)="setView('animaux')" [class.active]="currentView === 'animaux'">
+        <mat-icon>pets</mat-icon>
+        <span>Animaux</span>
+      </a>
+      <a mat-list-item (click)="setView('enclos')" [class.active]="currentView === 'enclos'">
+        <mat-icon>home</mat-icon>
+        <span>Enclos</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    @if (currentView === 'animaux') {
+      <app-animaux-list></app-animaux-list>
+    } @else if (currentView === 'enclos') {
+      <app-enclos-list></app-enclos-list>
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>
+} @else {
+<div class="welcome-container">
+  <h1>Bienvenue au Zoo Management System</h1>
+  <p>Connectez-vous pour accéder à la gestion des animaux et des enclos.</p>
+  <button mat-raised-button color="primary" (click)="auth.loginWithRedirect()">
+    Se connecter
+  </button>
+</div>
+}
+
+<router-outlet></router-outlet>
+
+
